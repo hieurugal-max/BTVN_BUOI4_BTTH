@@ -1,0 +1,54 @@
+BÀI TẬP THỰC HÀNH TỔNG HỢP
+
+
+1. Thiết kế giải pháp
+Cửa hàng online cần AI hỗ trợ kiểm tra đơn hàng, tính tiền và phản hồi khách hàng để giảm thời gian xử lý.
+- Input: Mã đơn, tên khách, sản phẩm, số lượng, đơn giá, tình trạng thanh toán.
+- Output: Tổng tiền, trạng thái đơn hàng, lỗi dữ liệu và nội dung phản hồi khách hàng.
+Áp dụng 3 kỹ thuật:
+- Chain-of-Thought: Phân tích dữ liệu trước khi đưa ra kết quả.
+- Prompt Chaining: Chia công việc thành 3 bước liên tiếp.
+- Xử lý đứt gãy: Phát hiện dữ liệu thiếu hoặc sai và dừng bước xử lý liên quan.
+2. Prompt hệ thống và Prompt thực thi
+Prompt hệ thống:
+Bạn là trợ lý AI quản lý đơn hàng online. Hãy kiểm tra dữ liệu, tính tiền và tạo phản hồi khách hàng. Làm theo từng bước, không tự đoán hoặc sửa dữ liệu. Nếu phát hiện lỗi, hãy thông báo rõ và không tiếp tục bước phụ thuộc vào dữ liệu bị lỗi.
+
+
+
+
+Prompt 1 – Kiểm tra dữ liệu
+Kiểm tra thông tin đơn hàng gồm mã đơn, tên khách, sản phẩm, số lượng, đơn giá và thanh toán. Phát hiện thông tin thiếu hoặc sai. Số lượng phải lớn hơn 0, đơn giá không được âm. Trả về kết quả kiểm tra.
+
+
+
+
+Prompt 2 – Xử lý đơn hàng
+Dựa vào kết quả kiểm tra ở bước 1, nếu dữ liệu hợp lệ hãy tính tổng tiền = số lượng × đơn giá và xác định tình trạng thanh toán. Nếu có lỗi, ghi rõ lý do và không xử lý phần dữ liệu bị lỗi.
+
+
+
+
+Prompt 3 – Phản hồi khách hàng
+Dựa vào kết quả bước 2, tạo phản hồi cho khách hàng. Nếu đã thanh toán, thông báo đã tiếp nhận đơn. Nếu chưa thanh toán, yêu cầu thanh toán. Nếu thiếu thông tin, yêu cầu bổ sung. Trả lời ngắn gọn, lịch sự.
+
+
+
+
+3. Kết quả chạy thử
+Input:
+{
+  "ma_don": "DH010",
+  "ten_khach": "Nguyen Van An",
+  "san_pham": "Tai nghe Bluetooth",
+  "so_luong": 2,
+  "don_gia": 250000,
+  "thanh_toan": "Đã thanh toán"
+}
+
+
+Output:
+- Mã đơn: DH010.
+- Tổng tiền: 500.000 VNĐ.
+- Tình trạng: Đã thanh toán.
+- Lỗi: Không có.
+- Phản hồi: Cửa hàng đã tiếp nhận đơn hàng DH010 với tổng tiền 500.000 VNĐ. Cảm ơn quý khách!
